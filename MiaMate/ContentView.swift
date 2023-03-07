@@ -1,15 +1,16 @@
 import SwiftUI
+import OpenAISwift
 
 struct ContentView: View {
-    
+
     @ObservedObject var viewModel = ViewModel()
     // for the prompt
     @State var text = ""
     // for sending to and receiving messages from the API
     @State var messages = [String]()
+
     let prompt = "Mia:\nHello! I am Mia :) Your virtual health coach buddy. I have knowledge about unusual fatigue and I can perhaps help you cope. How can I assist you today?"
-       
-    
+
     var body: some View {
         VStack(alignment: .leading) {
             ScrollView {
@@ -20,11 +21,13 @@ struct ContentView: View {
                 }
                 Spacer()
             }
-            
+
             HStack {
                 TextField("Start chatting...", text: $text)
-                Button("Send"){
-                    send()
+                Button("Send") {
+                    Task.detached {
+                        await send()
+                    }
                 }
             }
         }
@@ -32,26 +35,38 @@ struct ContentView: View {
         .task {
             // add prompt message when app launches
             messages.append(prompt)
-            
+
             viewModel.initialize()
         }
-    }
-    
-    func send(){
-        // if text field empty, then return
-        guard !text.trimmingCharacters(in: .whitespaces).isEmpty else { return }
-        messages.append("Me: \n\(text) \n")
-        
-        let textToSend = self.text
-        self.text = ""
-        viewModel.send(text: textToSend) {
-            // async append API's response to [messages]
-            response in
-            DispatchQueue.main.async {
-                self.messages.append("Mia:\n" + response + "\n")
+        .onAppear {
+            Task.detached {
+                await viewModel.initialize()
             }
         }
     }
+
+    func send() async {
+        // if text field empty, then return
+        guard !text.trimmingCharacters(in: .whitespaces).isEmpty else { return }
+
+        // append user's message to messages array
+        messages.append("Me: \n\(text) \n")
+
+        // create new chat message with user's text
+        let userMessage = ChatMessage(role: .user, content: text)
+
+        await viewModel.send(chat: [userMessage]) { response in
+            // async append API's response to [messages]
+            let miaMessage = ChatMessage(role: .assistant, content: response)
+            DispatchQueue.main.async {
+                self.messages.append("Mia:\n" + miaMessage.content + "\n")
+            }
+        }
+
+        // reset text field
+        text = ""
+    }
+
 }
 
 struct ContentView_Previews: PreviewProvider {
