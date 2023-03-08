@@ -53,6 +53,8 @@ struct ContentView: View {
         // create new chat message with user's text
         let userMessage = ChatMessage(role: .user, content: text)
 
+        // append user's message to messages array
+        messages.append("Me:\n" + userMessage.content + "\n")
 
         // send user's message and receive response from API
         await viewModel.send(chat: [userMessage]) { response in
