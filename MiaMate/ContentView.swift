@@ -7,8 +7,8 @@ struct ContentView: View {
     // for the prompt
     @State var text = ""
     // for sending to and receiving messages from the API
-    @State var messages = [String]()
-
+    @State var messages = [String]()    
+    
     let prompt = "Mia:\nHello! I am Mia :) Your virtual health coach buddy. I have knowledge about unusual fatigue and I can perhaps help you cope. How can I assist you today?"
 
     var body: some View {
@@ -33,6 +33,7 @@ struct ContentView: View {
         }
         .padding()
         .task {
+            
             // add prompt message when app launches
             messages.append(prompt)
 
@@ -49,12 +50,11 @@ struct ContentView: View {
         // if text field empty, then return
         guard !text.trimmingCharacters(in: .whitespaces).isEmpty else { return }
 
-        // append user's message to messages array
-        messages.append("Me: \n\(text) \n")
-
         // create new chat message with user's text
         let userMessage = ChatMessage(role: .user, content: text)
 
+
+        // send user's message and receive response from API
         await viewModel.send(chat: [userMessage]) { response in
             // async append API's response to [messages]
             let miaMessage = ChatMessage(role: .assistant, content: response)
@@ -66,6 +66,7 @@ struct ContentView: View {
         // reset text field
         text = ""
     }
+
 
 }
 
