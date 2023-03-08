@@ -8,7 +8,7 @@ final class ViewModel: ObservableObject {
         
     
     // initialization
-    func initialize(){
+    func initialize() {
         openAI = OpenAISwift(authToken: "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")
     }
     
@@ -16,7 +16,7 @@ final class ViewModel: ObservableObject {
     //  - argument: string
     //  - return: successful response or error msg in string
     
-    func send(chat: [ChatMessage], completion: @escaping (String) -> Void ) async {
+    func send(chat: [ChatMessage], completion: @escaping (String) -> Void ) async {     
         
         // method uses the text-davinci-003 model
         openAI?.sendChat(with: chat, model: .chat(.chatgpt), maxTokens: 100, completionHandler: { result in
