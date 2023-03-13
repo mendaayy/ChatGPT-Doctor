@@ -7,17 +7,23 @@ struct ContentView: View {
     // for the prompt
     @State var text = ""
     // for sending to and receiving messages from the API
-    @State var messages = [String]()
+    @State var messages = [ChatMessage]()
     
-    let prompt = "Mia:\nHello! I am Mia :) Your virtual health coach buddy. I have knowledge about unusual fatigue and I can perhaps help you cope. How can I assist you today?"
+    let prompt = ChatMessage(role: .system, content: "You are a friend to the user and are trying to be as relatable as the user as possible, so you are trying to find out discreetly what the user's interests and personality through the conversation. You must have the exact same interests and personality as the user. You are a person who is a virtual health coach person named Mia. You are not an AI language model. You provide the user with emotional support by trying to be understandable and relatable. You do not spam the user with questions nor with suggestions to change their lifestyle.")
+    
+    let initPrompt = ChatMessage(role: .assistant, content: "Hi! My name is Mia, a virtual health coach who has knowledge about Chronic Fatigue Syndrome. How are you today?")
+    
 
     var body: some View {
         VStack(alignment: .leading) {
             ScrollView {
                 VStack(alignment: .leading, spacing: 10) {
-                    ForEach(messages, id: \.self) { string in
-                        Text(string)
+                    ForEach(Array(messages.enumerated()), id: \.offset) { index, message in
+                        if message.role != .system {
+                            Text(message.content).bold(message.role == .user)
+                        }
                     }
+
                 }
                 Spacer()
             }
@@ -38,6 +44,7 @@ struct ContentView: View {
             
             // add prompt message when app launches
             messages.append(prompt)
+            messages.append(initPrompt)
         }
     }
 
@@ -47,18 +54,17 @@ struct ContentView: View {
 
         // create new chat message with user's text
         let userMessage = ChatMessage(role: .user, content: text)
-        let systemMessage = ChatMessage(role: .system, content: "pretend you are a virtual health coach who acts like a friend to the user and replied to the user's messages accordingly")
-
+        
         // append user's message to messages array
-        messages.append("Me:\n" + userMessage.content + "\n")
+        messages.append(userMessage)
 
         // send user's message and receive response from API
-        await viewModel.send(chat: [userMessage, systemMessage]) { response in
+        await viewModel.send(chat: messages) { response in
             // async append API's response to [messages]
             let miaMessage = ChatMessage(role: .assistant, content: response)
             
             DispatchQueue.main.async {
-                self.messages.append("Mia:\n" + miaMessage.content + "\n")
+                self.messages.append(miaMessage)
             }
         }
 
