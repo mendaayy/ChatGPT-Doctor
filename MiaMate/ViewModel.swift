@@ -4,8 +4,6 @@ import SwiftUI
 final class ViewModel: ObservableObject {
     
     private var openAI: OpenAISwift?
-        
-
     
     // initialization
     func initialize() {
@@ -14,12 +12,12 @@ final class ViewModel: ObservableObject {
     }
     
     // function to send request to the API
-    //  - argument: string
+    //  - argument: message arrau
     //  - return: successful response or error msg in string
     
     func send(chat: [ChatMessage], completion: @escaping (String) -> Void ) async {     
         
-        // method uses the text-davinci-003 model
+        // method uses the gpt3.5-turbo model
         openAI?.sendChat(with: chat, model: .chat(.chatgpt), maxTokens: 500, temperature: 0.7, completionHandler: { result in
             switch result {
                 case .success(let success):
