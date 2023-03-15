@@ -139,6 +139,10 @@ struct ContentView: View {
                 messages.append(prompt)
                 
             }
+            .gesture(DragGesture().onChanged { _ in
+                // Dismiss the keyboard when the user drags down the view
+            UIApplication.shared.windows.first { $0.isKeyWindow }?.endEditing(true)
+            })
         }
     }
     
