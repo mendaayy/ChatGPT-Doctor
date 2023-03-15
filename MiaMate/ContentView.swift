@@ -9,7 +9,7 @@ struct ViewHeightKey: PreferenceKey {
     }
 }
 
-struct ContentView: View {
+struct ContentView: View  {
 
     @ObservedObject var viewModel = ViewModel()
     // for the prompt
@@ -31,12 +31,12 @@ struct ContentView: View {
     var body: some View {
         ZStack {
             Image("Background")
-                .aspectRatio(contentMode: .fill)
+                .resizable()
                 .edgesIgnoringSafeArea(.all)
-                .frame(minWidth: 0, maxWidth: .infinity)
             
-            VStack(alignment: .center) {
-                HStack {
+            VStack(alignment: .leading) {
+                HStack() {
+                    Spacer()
                     VStack {
                         Text("MiaMate")
                             .font(.title)
@@ -44,9 +44,11 @@ struct ContentView: View {
                             .bold()
             
                         Image("Avatar")
-                            .resizable()
-                            .padding(.bottom)
-                            .frame(width: 270.0, height: 270.0)
+                         .resizable()
+                         .aspectRatio(contentMode: .fit)
+                         .padding()
+                         .frame(minWidth: 120, maxWidth: 270, minHeight:120, maxHeight: 270)
+
                         
                         // speaker
                         Button(action: {
@@ -58,6 +60,7 @@ struct ContentView: View {
                         })
                         
                     }
+                    Spacer()
                 }
                 
                 ScrollViewReader { scrollview in
@@ -66,6 +69,7 @@ struct ContentView: View {
                             HStack {
                                 if message.role != .system {
                                     Text(message.content)
+                                        .foregroundColor(Color(hue: 0.712, saturation: 0.664, brightness: 0.443))
                                         .bold(message.role == .user)
                                         .frame(maxWidth: .infinity, alignment: .leading)
                                         .padding(EdgeInsets(top: 2, leading: 0, bottom: 2, trailing: 0))
@@ -90,8 +94,7 @@ struct ContentView: View {
                         }
                     }
                     .padding(.all, 20.0)
-                    .frame(height: 200.0)
-                    
+                    .frame(minHeight: 200, maxHeight: 280)
                     .overlay(
                         RoundedRectangle(cornerRadius: 20)
                             .stroke(Color.gray, lineWidth: 1)
@@ -104,8 +107,7 @@ struct ContentView: View {
                 }.padding(.top, 20.0)
                 
                 Spacer()
-                    .frame(height: 100.0)
-                
+                                    
                 VStack {
                     
                     HStack {
@@ -141,7 +143,7 @@ struct ContentView: View {
             }
             .gesture(DragGesture().onChanged { _ in
                 // Dismiss the keyboard when the user drags down the view
-            UIApplication.shared.windows.first { $0.isKeyWindow }?.endEditing(true)
+                UIApplication.shared.windows.first { $0.isKeyWindow }?.endEditing(true)
             })
         }
     }
