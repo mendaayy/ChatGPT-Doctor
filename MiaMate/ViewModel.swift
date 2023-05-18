@@ -4,25 +4,24 @@ import SwiftUI
 final class ViewModel: ObservableObject {
     
     private var openAI: OpenAISwift?
-    private var prompt: String = "Q: What are the common symptoms of CFS?\nA: The most common symptoms of CFS include severe fatigue, muscle pain, cognitive difficulties, and sleep disturbances.\nQ: How is CFS diagnosed?\nA: CFS is diagnosed based on a combination of clinical symptoms, medical history, and laboratory tests.\nQ: What are some treatment options for CFS?\nA: Treatment options for CFS include cognitive behavioral therapy, graded exercise therapy, and pharmacological interventions."
     
     // initialization
-    func initialize(){
+    func initialize() {
         openAI = OpenAISwift(authToken: "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")
+
     }
     
     // function to send request to the API
-    //  - argument: string
+    //  - argument: message arrau
     //  - return: successful response or error msg in string
     
-    func send(text: String, completion: @escaping (String) -> Void ) {
-        prompt += "\nQ: \(text)\nA:"
+    func send(chat: [ChatMessage], completion: @escaping (String) -> Void ) async {     
         
-        // method uses the text-davinci-003 model
-            openAI?.sendCompletion(with: prompt, maxTokens: 100, completionHandler: { result in
+        // method uses the gpt3.5-turbo model
+        openAI?.sendChat(with: chat, model: .chat(.chatgpt), maxTokens: 500, temperature: 0.7, completionHandler: { result in
             switch result {
                 case .success(let success):
-                    let output = success.choices.first?.text ?? ""
+                let output = success.choices.first?.message.content ?? ""
                     completion(output)
                 case .failure(let failure):
                     print(failure.localizedDescription)
