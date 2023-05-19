@@ -13,12 +13,12 @@ approach is aimed at creating a more meaningful interaction with the chatbot, th
 
 **Problem Statement**
 
-Problem Statement:
 Individuals with mental health or those with Chronic Fatigue Syndrome (CFS), often experience a diminished quality of 
 life due to a lack of emotional support and knowledge about their condition. Existing resources and support systems may not adequately 
 address their specific needs. 
 
-Solution Proposal:
+**Solution**
+
 The proposed solution is an AI-powered chatbot application designed to cater to the needs of individuals in need of emotional support 
 or just someone to talk to whenever they want. With AI technology, it will enable the chatbot to provide personalized guidance, emotional support, and 
 recommendations for lifestyle changes and self-treatments tailored to the individual's specific needs. 
