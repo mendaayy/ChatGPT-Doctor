@@ -1,4 +1,4 @@
-# ChatGPT as a Doctor
+# ChatGPT as a Therapist
 
 ## Introduction 
 
@@ -45,7 +45,7 @@ with the user. In addition, I also added a speaker option by using the AVFoundat
 - Swift in Xcode
 - AVFoundation for speaker
 
-## Coded UI
+## Coded Prototype
 <img width="308" alt="Final version" src="https://github.com/mendaayy/ChatGPT-Doctor/assets/122844229/56cbd643-0c88-49f2-9141-5a69f452597b">
 
 https://github.com/mendaayy/ChatGPT-Doctor/assets/122844229/f823f782-b426-4547-99af-40eb182b0a67
