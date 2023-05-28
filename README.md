@@ -46,7 +46,13 @@ with the user. In addition, I also added a speaker option by using the AVFoundat
 - AVFoundation for speaker
 
 ## Coded UI
-<img width="508" alt="Final version" src="https://github.com/mendaayy/ChatGPT-Doctor/assets/122844229/56cbd643-0c88-49f2-9141-5a69f452597b">
+<img width="308" alt="Final version" src="https://github.com/mendaayy/ChatGPT-Doctor/assets/122844229/56cbd643-0c88-49f2-9141-5a69f452597b">
+
+https://github.com/mendaayy/ChatGPT-Doctor/assets/122844229/f823f782-b426-4547-99af-40eb182b0a67
+
+App got featured on my school (Fontys ICT) social media:
+
+<img width="208" src="https://github.com/mendaayy/ChatGPT-Doctor/assets/122844229/e46904c4-daeb-483d-9ecf-05f98ca1dea7">
 
 
 ## [Figma](https://www.figma.com/proto/73xJ3y8383916bFTLa9X9S/MiaMate-High-Fidelity-Prototype?type=design&node-id=1-2&scaling=scale-down&page-id=0%3A1&starting-point-node-id=1%3A2)
